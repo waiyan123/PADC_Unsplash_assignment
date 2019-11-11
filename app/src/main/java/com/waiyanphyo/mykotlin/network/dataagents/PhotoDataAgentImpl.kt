@@ -3,10 +3,13 @@ package com.waiyanphyo.mykotlin.network.dataagents
 import android.util.Log
 import com.waiyanphyo.mykotlin.data.vos.PhotoVO
 import com.waiyanphyo.mykotlin.network.PhotoApi
+import com.waiyanphyo.mykotlin.network.responses.SearchResponse
 import com.waiyanphyo.mykotlin.utils.API_KEY
 import com.waiyanphyo.mykotlin.utils.BASE_URL
+import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import retrofit2.*
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
@@ -22,6 +25,7 @@ object PhotoDataAgentImpl : PhotosDataAgent {
 
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
@@ -50,6 +54,19 @@ object PhotoDataAgentImpl : PhotosDataAgent {
         })
     }
 
+    override fun getAllPhotosObservable(): Observable<List<PhotoVO>> {
+
+        return photoApi.getAllPhotosObservable(API_KEY)
+            .flatMap {
+                if(it!=null){
+                    Observable.just(it)
+                }
+                else {
+                    Observable.error(RuntimeException("Response error"))
+                }
+            }
+    }
+
     override fun getPhotoById(
         id : (String) -> Unit,
         onSuccess: (PhotoVO) -> Unit,
@@ -70,11 +87,16 @@ object PhotoDataAgentImpl : PhotosDataAgent {
         })
     }
 
-    override fun getSearchPhotos(
-        onSuccess: (List<PhotoVO>) -> Unit,
-        onFailure: (String) -> Unit
-    ) {
-
+    override fun getSearchPhotos(queryStr: (String) -> Unit) : Observable<SearchResponse> {
+        return photoApi.getSearchPhotos(API_KEY,queryStr.toString())
+            .flatMap {
+                if(it!=null){
+                    Observable.just(it)
+                }
+                else {
+                    Observable.error(RuntimeException("Response error"))
+                }
+            }
     }
 
 }

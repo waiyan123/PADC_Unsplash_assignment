@@ -5,19 +5,37 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.waiyanphyo.mykotlin.data.vos.PhotoVO
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
-object PhotoModelImpl : BaseModel(),PhotoModel {
+object PhotoModelImpl : BaseModel(), PhotoModel {
 
     override fun getAllPhotoFromNetwork(
         onFailure: (String) -> Unit
-    ) : LiveData<List<PhotoVO>> {
-        val photosFromDb = room.photoDao().getPhotoList()
-            dataAgent.getAllPhotos(
+    ): LiveData<List<PhotoVO>> {
+
+        dataAgent.getAllPhotosObservable()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnError {
+                onFailure(it.message?:"Response error")
+            }
+            .flatMap<LongArray> {
+                room.photoDao().insertAllPhotos(it).subscribeOn(Schedulers.io()).toObservable()
+            }
+            .subscribe({
+                Log.d("test---",it.toString())
+            },
                 {
-                    room.photoDao().insertAllPhotos(it)
-                },{
-                    onFailure(it)
+                    onFailure(it.localizedMessage)
                 })
+
+//            dataAgent.getAllPhotos(
+//                {
+//                    room.photoDao().insertAllPhotos(it)
+//                },{
+//                    onFailure(it)
+//                })
         return room.photoDao().getPhotoList()
 
     }
@@ -31,13 +49,7 @@ object PhotoModelImpl : BaseModel(),PhotoModel {
         onSuccess: (List<PhotoVO>) -> Unit,
         onFailure: (String) -> Unit
     ) {
-        dataAgent.getSearchPhotos(
-            {
-                onSuccess(it)
-            },
-            {
-                onFailure(it)
-            })
+
     }
 
 }

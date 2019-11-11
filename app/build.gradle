@@ -45,8 +45,11 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
 
     //Room
-    implementation 'androidx.room:room-runtime:2.0.0'
-    kapt 'androidx.room:room-compiler:2.0.0'
+    implementation 'androidx.room:room-runtime:2.2.1'
+    kapt 'androidx.room:room-compiler:2.2.1'
+
+    //Room + RxJava
+    implementation 'androidx.room:room-rxjava2:2.2.1'
 
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.9.0'
@@ -54,5 +57,11 @@ dependencies {
 
     //Live Data and View Model
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+
+    //RxJava
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
+
+    //RxAndroid
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
 }

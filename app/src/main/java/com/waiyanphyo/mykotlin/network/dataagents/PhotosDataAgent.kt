@@ -1,6 +1,8 @@
 package com.waiyanphyo.mykotlin.network.dataagents
 
 import com.waiyanphyo.mykotlin.data.vos.PhotoVO
+import com.waiyanphyo.mykotlin.network.responses.SearchResponse
+import io.reactivex.Observable
 
 interface PhotosDataAgent {
 
@@ -9,15 +11,14 @@ interface PhotosDataAgent {
         onFailure : (String) -> Unit
     )
 
+    fun getAllPhotosObservable() : Observable<List<PhotoVO>>
+
     fun getPhotoById(
         id : (String) ->Unit,
         onSuccess : (PhotoVO)-> Unit,
         onFailure: (String) -> Unit
     )
 
-    fun getSearchPhotos(
-        onSuccess: (List<PhotoVO>) -> Unit,
-        onFailure: (String) -> Unit
-    )
+    fun getSearchPhotos(queryStr : (String) -> Unit) : Observable<SearchResponse>
 
 }

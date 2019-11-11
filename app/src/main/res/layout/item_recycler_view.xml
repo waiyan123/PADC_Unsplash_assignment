@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_medium_3">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <com.waiyanphyo.mykotlin.views.items.ScaledImageView
         android:id="@+id/img_itemview"
         android:layout_gravity="center"
         android:src="@drawable/ic_launcher_background"

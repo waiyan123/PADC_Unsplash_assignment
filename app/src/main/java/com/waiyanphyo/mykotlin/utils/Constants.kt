@@ -7,3 +7,5 @@ const val BASE_URL = "https://api.unsplash.com/"
 const val GET_PHOTOS = "photos"
 
 const val GET_PHOTO_BY_ID = "photos/{id}"
+
+const val GET_SEARCH_PHOTOS = "search/photos"

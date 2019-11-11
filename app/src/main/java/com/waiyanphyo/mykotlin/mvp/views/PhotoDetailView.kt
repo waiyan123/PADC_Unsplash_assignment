@@ -8,4 +8,6 @@ interface PhotoDetailView : BaseView {
 
     fun displayError(errorMessage : String)
 
+    fun displayAllPhotos(photoList : List<PhotoVO>)
+
 }

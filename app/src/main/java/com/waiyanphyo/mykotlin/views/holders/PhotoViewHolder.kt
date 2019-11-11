@@ -20,14 +20,7 @@ class PhotoViewHolder(itemView : View,delegate : PhotoDelegate ) : BaseViewHolde
     }
 
     override fun bindData(data: PhotoVO) {
-        var originalWidth = data.width
-        var originalHeight = data.height
-
-        var ratio = originalHeight.toDouble()/originalWidth.toDouble()
-        var actualHeight = data.width.toDouble()*ratio
-
-        itemView.img_itemview.layoutParams.height = actualHeight.toInt()
-
+        itemView.img_itemview.heightRatio = data.height.toDouble()/data.width.toDouble()
         Glide.with(itemView)
             .load(data.urls.regular)
             .into(itemView.img_itemview)

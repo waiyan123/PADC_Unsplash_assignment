@@ -30,7 +30,6 @@ class MainActivity : BaseActivity(),PhotoListView {
 
         rv_photo.setHasFixedSize(true)
         rv_photo.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
-//        rv_photo.layoutManager = LinearLayoutManager(this)
         photoListAdapter = PhotoAdapter(mPresenter)
         rv_photo.adapter = photoListAdapter
 
