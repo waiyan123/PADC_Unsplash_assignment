@@ -19,7 +19,7 @@ interface PhotoApi {
     fun getAllPhotosObservable(@Query("client_id") client_id : String) : Observable<List<PhotoVO>>
 
     @GET(GET_PHOTO_BY_ID)
-    fun getPhotoById(@Path("id") id: (String) -> Unit, @Query("client_id") client_id: String) : Call<PhotoVO>
+    fun getPhotoById(@Path("id") id: String, @Query("client_id") client_id: String) : Call<PhotoVO>
 
     @GET(GET_SEARCH_PHOTOS)
     fun getSearchPhotos(@Query("client_id") client_id: String,@Query("query") office : String ) : Observable<SearchResponse>

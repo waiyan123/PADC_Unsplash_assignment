@@ -76,12 +76,12 @@ class MainActivity : BaseActivity(),PhotoListView {
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    emiter.onNext(p0.toString())
+                    if(p0.toString().isNotBlank()) emiter.onNext(p0.toString())
                 }
 
             })
         }
-            .debounce(2000,TimeUnit.MILLISECONDS)
+            .debounce(600,TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext {
                 mPresenter.onSearch(it)

@@ -4,6 +4,7 @@ import android.util.Log
 import com.waiyanphyo.mykotlin.data.vos.PhotoVO
 import com.waiyanphyo.mykotlin.network.PhotoApi
 import com.waiyanphyo.mykotlin.network.responses.SearchResponse
+import com.waiyanphyo.mykotlin.persistence.PhotoDatabase
 import com.waiyanphyo.mykotlin.utils.API_KEY
 import com.waiyanphyo.mykotlin.utils.BASE_URL
 import io.reactivex.Observable
@@ -32,6 +33,7 @@ object PhotoDataAgentImpl : PhotosDataAgent {
             .build()
 
         photoApi = retrofit.create(PhotoApi::class.java)
+
     }
 
     override fun getAllPhotos(
@@ -69,7 +71,7 @@ object PhotoDataAgentImpl : PhotosDataAgent {
     }
 
     override fun getPhotoById(
-        id : (String) -> Unit,
+        id : String,
         onSuccess: (PhotoVO) -> Unit,
         onFailure: (String) -> Unit
     ) {
@@ -88,11 +90,11 @@ object PhotoDataAgentImpl : PhotosDataAgent {
         })
     }
 
-    override fun getSearchPhotosObservable(queryStr: (String) -> Unit) : Observable<SearchResponse> {
-        return photoApi.getSearchPhotos(API_KEY,queryStr.toString())
+    override fun getSearchPhotosObservable(queryStr: String) : Observable<SearchResponse> {
+        return photoApi.getSearchPhotos(API_KEY,queryStr)
             .flatMap {
                 if(it!=null){
-                    Log.d("test---",queryStr.toString())
+                    Log.d("test---",queryStr)
                     Observable.just(it)
                 }
                 else {

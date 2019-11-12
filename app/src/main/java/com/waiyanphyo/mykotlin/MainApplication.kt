@@ -13,8 +13,6 @@ class MainApplication : Application(){
     override fun onCreate() {
         super.onCreate()
         PhotoModelImpl.initDatabase(applicationContext)
-
-
     }
 
 }

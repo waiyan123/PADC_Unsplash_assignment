@@ -14,11 +14,11 @@ interface PhotosDataAgent {
     fun getAllPhotosObservable() : Observable<List<PhotoVO>>
 
     fun getPhotoById(
-        id : (String) ->Unit,
+        id : String,
         onSuccess : (PhotoVO)-> Unit,
         onFailure: (String) -> Unit
     )
 
-    fun getSearchPhotosObservable(queryStr : (String) -> Unit): Observable<SearchResponse>
+    fun getSearchPhotosObservable(queryStr : String): Observable<SearchResponse>
 
 }

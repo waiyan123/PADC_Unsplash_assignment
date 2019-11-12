@@ -36,9 +36,7 @@ class PhotoListPresenter : BasePresenter<PhotoListView>(),PhotoDelegate{
     fun onSearch(str : String){
         Log.d("test---","onSearch str "+str)
         val dataAgent = PhotoDataAgentImpl
-        dataAgent.getSearchPhotosObservable {
-
-        }
+        dataAgent.getSearchPhotosObservable(str)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext {
