@@ -19,6 +19,6 @@ interface PhotosDataAgent {
         onFailure: (String) -> Unit
     )
 
-    fun getSearchPhotos(queryStr : (String) -> Unit) : Observable<SearchResponse>
+    fun getSearchPhotosObservable(queryStr : (String) -> Unit): Observable<SearchResponse>
 
 }

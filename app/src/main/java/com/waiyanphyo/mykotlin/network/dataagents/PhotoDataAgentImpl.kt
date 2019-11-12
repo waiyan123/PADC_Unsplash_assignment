@@ -7,6 +7,7 @@ import com.waiyanphyo.mykotlin.network.responses.SearchResponse
 import com.waiyanphyo.mykotlin.utils.API_KEY
 import com.waiyanphyo.mykotlin.utils.BASE_URL
 import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import retrofit2.*
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -87,16 +88,30 @@ object PhotoDataAgentImpl : PhotosDataAgent {
         })
     }
 
-    override fun getSearchPhotos(queryStr: (String) -> Unit) : Observable<SearchResponse> {
+    override fun getSearchPhotosObservable(queryStr: (String) -> Unit) : Observable<SearchResponse> {
         return photoApi.getSearchPhotos(API_KEY,queryStr.toString())
             .flatMap {
                 if(it!=null){
+                    Log.d("test---",queryStr.toString())
                     Observable.just(it)
                 }
                 else {
-                    Observable.error(RuntimeException("Response error"))
+                    Observable.error(java.lang.RuntimeException("Response error"))
                 }
             }
+//            .subscribeOn(Schedulers.io())
+//            .switchMap {
+//                if(it!=null){
+//                    Log.d("test---","response")
+//                    Log.d("test---",it.results[0].created_at)
+//                    Observable.just(it)
+//                }
+//                else {
+//                    Log.d("test---","null")
+//                    Observable.error(RuntimeException("Response error"))
+//                }
+//            }
+
     }
 
 }

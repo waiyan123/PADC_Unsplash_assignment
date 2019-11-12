@@ -2,8 +2,14 @@ package com.waiyanphyo.mykotlin.mvp.presenters
 
 import android.util.Log
 import com.waiyanphyo.mykotlin.data.models.PhotoModelImpl
+import com.waiyanphyo.mykotlin.data.vos.PhotoVO
 import com.waiyanphyo.mykotlin.delegates.PhotoDelegate
 import com.waiyanphyo.mykotlin.mvp.views.PhotoListView
+import com.waiyanphyo.mykotlin.network.dataagents.PhotoDataAgentImpl
+import com.waiyanphyo.mykotlin.network.responses.SearchResponse
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class PhotoListPresenter : BasePresenter<PhotoListView>(),PhotoDelegate{
 
@@ -25,7 +31,20 @@ class PhotoListPresenter : BasePresenter<PhotoListView>(),PhotoDelegate{
             .observeForever {
                 mView.displayPhotoList(it)
             }
+    }
 
+    fun onSearch(str : String){
+        Log.d("test---","onSearch str "+str)
+        val dataAgent = PhotoDataAgentImpl
+        dataAgent.getSearchPhotosObservable {
+
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext {
+                mView.displayPhotoList(it.results)
+            }
+            .subscribe()
     }
 
     override fun onStart() {

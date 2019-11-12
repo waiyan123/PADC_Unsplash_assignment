@@ -24,7 +24,6 @@ object PhotoModelImpl : BaseModel(), PhotoModel {
                 room.photoDao().insertAllPhotos(it).subscribeOn(Schedulers.io()).toObservable()
             }
             .subscribe({
-                Log.d("test---",it.toString())
             },
                 {
                     onFailure(it.localizedMessage)

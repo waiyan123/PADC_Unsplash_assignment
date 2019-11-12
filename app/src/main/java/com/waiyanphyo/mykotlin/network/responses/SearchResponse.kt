@@ -15,6 +15,7 @@ data class SearchResponse(
     @SerializedName("results")
     val results : List<PhotoVO>
 
+
 )
 {
 }
